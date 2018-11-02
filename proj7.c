@@ -5,7 +5,7 @@ Team Member 2: N/A
 GU Username of project lead: wfraisl
 Pgm Name: proj7.c
 Pgm Desc: using pthreads and a pipe to check if a number is prime 
-Usage: ./a.out <num_to_create>
+Usage: ./a.out <num_to_create> -pthreads
 Due Date: 11/2/18
 */
 
@@ -20,7 +20,7 @@ void* thread_func(void*);
 int is_prime(int);
 
 struct params{
-    void* tid;
+    int tid;
     int num_to_create;
     int pipe[2];
     char type;
@@ -34,13 +34,13 @@ int main(int argc, char* argv[]){
     int fd[2];
 
     //check for correct usage
-    if(argc == 2){
+    if(argc == 3){
         for(i=0; i<4; i++){
             p[i].num_to_create = atoi(argv[1]);
         }
     }
     else{
-        printf("usage: ./a.out <num_to_create>\n");
+        printf("usage: ./a.out <num_to_create> -pthreads\n");
         return -1;
     }
 
@@ -55,14 +55,14 @@ int main(int argc, char* argv[]){
     }
 
     //creating write thread
-    p[0].tid = (void*)0;
+    p[0].tid = 0;
     p[0].type = 'w';
     status = pthread_create(&threads[0], NULL, thread_func, (void*)&p );
     sleep(1);
 
     //create read threads
     for (i = 1; i < NUM_THREADS; i++){
-        p[i].tid = (void*)i;
+        p[i].tid = i;
         p[i].type = 'r';
         status = pthread_create(&threads[i], NULL, thread_func, (void*)&p[i] );
     }
@@ -89,6 +89,7 @@ void* thread_func(void* param_in){
             //display generated number
             printf("Generated: %d\n", num_to_add);
             nums_generated++;
+            sleep(1);
         }
         close(p->pipe[1]);
     }
