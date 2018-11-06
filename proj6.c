@@ -115,7 +115,7 @@ void producer(sem_buf s_wait[0] ,sem_buf s_signal[0] ,int mutex, int empty, int 
         critical_section('P');
         semop(mutex, s_signal, 1);
         semop(full, s_signal, 1); //experiment with putting delays after this line
-        //sleep(1);
+        usleep(10000);
     }
 }
 
@@ -127,7 +127,7 @@ void consumer(sem_buf s_wait[0] ,sem_buf s_signal[0] ,int mutex, int empty, int 
         critical_section('C');
         semop(mutex, s_signal, 1);
         semop(empty, s_signal, 1); //experiment with putting delays after this line
-        //sleep(1);
+        usleep(100000);
     }    
 }
 

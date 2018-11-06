@@ -58,7 +58,7 @@ int main(int argc, char* argv[]){
     p[0].tid = 0;
     p[0].type = 'w';
     status = pthread_create(&threads[0], NULL, thread_func, (void*)&p );
-    sleep(1);
+    //sleep(1);
 
     //create read threads
     for (i = 1; i < NUM_THREADS; i++){
