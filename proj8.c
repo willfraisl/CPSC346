@@ -75,6 +75,11 @@ int main(int argc, char *argv[])
     int found;
     int address_count = 0;
 
+    if(argc != 3){
+        printf("usage: ./a.out BACKING_STORE.bin addresses.txt\n");
+        exit(1);
+    }
+
     //open simulation of secondary storage     
     const char *backing_filename = argv[1]; 					//BACKING_STORE.bin 
     int backing_fd = open(backing_filename, O_RDONLY);
